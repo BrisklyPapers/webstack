@@ -6,6 +6,7 @@ A fast and simple document store. Its goal is to provide a simple way to store a
 ## Getting started
 
 `git submodule init`
+`git submodule update`
 
 start the docker stack
 
