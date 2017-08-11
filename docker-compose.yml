@@ -1,0 +1,84 @@
+version: '2'
+services:
+  elasticsearch1:
+    build: ./elasticsearch/docker
+    container_name: elasticsearch1
+    environment:
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    mem_limit: 1g
+    volumes:
+      - esdata1:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+    networks:
+      - esnet
+  elasticsearch2:
+    build: ./elasticsearch/docker
+    container_name: elasticsearch2
+    environment:
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "discovery.zen.ping.unicast.hosts=elasticsearch1"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    mem_limit: 1g
+    volumes:
+      - esdata2:/usr/share/elasticsearch/data
+    networks:
+      - esnet
+
+  nginx:
+      build:
+        context: ./nginx/docker
+        dockerfile: web.docker
+      container_name: nginx
+      volumes:
+        - ./nginx/src:/var/www
+      ports:
+        - 8085:80
+      links:
+        - app
+      networks:
+        - laravelnet
+
+  app:
+      build:
+        context: ./php/docker
+        dockerfile: app.docker
+      container_name: app
+      volumes:
+        - ./php/src:/var/www
+      networks:
+        - esnet
+        - laravelnet
+
+  react:
+    build: ./react/src
+    container_name: react
+    entrypoint: sh /home/node/entrypoint.sh
+    working_dir: /home/node
+    ports:
+      - 3000:3000
+    volumes:
+      - ./react/src:/home/node
+    networks:
+      - laravelnet
+
+volumes:
+  esdata1:
+    driver: local
+  esdata2:
+    driver: local
+
+networks:
+  esnet:
+  laravelnet:
