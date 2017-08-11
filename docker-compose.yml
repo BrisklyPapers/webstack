@@ -41,7 +41,7 @@ services:
         context: ./nginx
       container_name: nginx
       volumes:
-        - ./nginx/src:/var/www
+        - ./php/src:/var/www
       ports:
         - 8085:80
       links:

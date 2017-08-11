@@ -5,6 +5,8 @@ A fast and simple document store. Its goal is to provide a simple way to store a
 
 ## Getting started
 
+`git submodule init`
+
 start the docker stack
 
 `$ docker-compose up -d`
