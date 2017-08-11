@@ -1,7 +1,7 @@
 version: '2'
 services:
   elasticsearch1:
-    build: ./elasticsearch/docker
+    build: ./elasticsearch/
     container_name: elasticsearch1
     environment:
       - cluster.name=docker-cluster
@@ -19,7 +19,7 @@ services:
     networks:
       - esnet
   elasticsearch2:
-    build: ./elasticsearch/docker
+    build: ./elasticsearch/
     container_name: elasticsearch2
     environment:
       - cluster.name=docker-cluster
@@ -38,8 +38,7 @@ services:
 
   nginx:
       build:
-        context: ./nginx/docker
-        dockerfile: web.docker
+        context: ./nginx
       container_name: nginx
       volumes:
         - ./nginx/src:/var/www
@@ -62,14 +61,14 @@ services:
         - laravelnet
 
   react:
-    build: ./react/src
+    build: ./react/
     container_name: react
     entrypoint: sh /home/node/entrypoint.sh
     working_dir: /home/node
     ports:
       - 3000:3000
     volumes:
-      - ./react/src:/home/node
+      - ./react/:/home/node
     networks:
       - laravelnet
 

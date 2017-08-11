@@ -1,0 +1,12 @@
+[submodule "elasticsearch"]
+	path = elasticsearch
+	url = git@github.com:BrisklyPapers/elasticsearch.git
+[submodule "php"]
+	path = php
+	url = git@github.com:BrisklyPapers/php.git
+[submodule "react"]
+	path = react
+	url = git@github.com:BrisklyPapers/react.git
+[submodule "nginx"]
+	path = nginx
+	url = git@github.com:BrisklyPapers/nginx.git
