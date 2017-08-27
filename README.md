@@ -24,6 +24,8 @@ install composer dependencies
 
 `root@aef84695e027:/var/www# composer install`
 
+`root@aef84695e027:/var/www# php artisan migrate`
+
 ## take a look around
 
 The new interface is available at `http://localhost:3000/`

@@ -18,6 +18,7 @@ services:
       - 9200:9200
     networks:
       - esnet
+
   elasticsearch2:
     build: ./elasticsearch/
     container_name: elasticsearch2
@@ -36,6 +37,19 @@ services:
     networks:
       - esnet
 
+  mysql:
+      image: mysql
+      container_name: mysql
+      environment:
+          - MYSQL_ROOT_PASSWORD=root
+          - MYSQL_DATABASE=briskly_papers
+          - MYSQL_USER=briskly_papers
+          - MYSQL_PASSWORD=briskly_papers
+      volumes:
+        - mysql_data:/var/lib/mysql
+      networks:
+        - laravelnet
+
   nginx:
       build:
         context: ./nginx
@@ -46,6 +60,9 @@ services:
         - 8085:80
       links:
         - app
+        - mysql
+        - elasticsearch1
+        - elasticsearch2
       networks:
         - laravelnet
 
@@ -59,6 +76,11 @@ services:
       networks:
         - esnet
         - laravelnet
+      environment:
+        - DB_HOST=mysql
+        - DB_DATABASE=briskly_papers
+        - DB_USERNAME=briskly_papers
+        - DB_PASSWORD=briskly_papers
 
   react:
     build: ./react/
@@ -77,6 +99,7 @@ volumes:
     driver: local
   esdata2:
     driver: local
+  mysql_data:
 
 networks:
   esnet:
