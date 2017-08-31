@@ -10,3 +10,6 @@
 [submodule "nginx"]
 	path = nginx
 	url = git@github.com:BrisklyPapers/nginx.git
+[submodule "socat"]
+	path = socat
+	url = git@github.com:BrisklyPapers/socat.git

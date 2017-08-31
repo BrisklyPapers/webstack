@@ -93,15 +93,15 @@ services:
     networks:
       - laravelnet
 
-  fpm:
-    build: ./socat
-    volumes:
-      - ./socat/socat.sh:/socat.sh
-    command: /socat.sh
-    expose:
-      - 9000
-    networks:
-      - laravelnet
+#  fpm:
+#    build: ./socat
+#    volumes:
+#      - ./socat/socat.sh:/socat.sh
+#    command: /socat.sh
+#    expose:
+#      - 9000
+#    networks:
+#      - laravelnet
 
 volumes:
   esdata1:
