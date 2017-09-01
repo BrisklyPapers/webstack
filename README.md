@@ -28,7 +28,7 @@ install composer dependencies
 
 ## take a look around
 
-The new interface is available at `http://localhost:3000/`
+The interface is available at `http://localhost:8085/`
 
 ## Environment
 
