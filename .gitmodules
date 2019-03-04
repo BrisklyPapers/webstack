@@ -13,3 +13,6 @@
 [submodule "socat"]
 	path = socat
 	url = git@github.com:BrisklyPapers/socat.git
+[submodule "scan"]
+	path = scan
+	url = git@github.com:BrisklyPapers/scan.git

@@ -4,41 +4,17 @@ services:
     build: ./elasticsearch/
     container_name: elasticsearch1
     environment:
-      - cluster.name=docker-cluster
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    mem_limit: 1g
+      - discovery.type=single-node
     volumes:
       - esdata1:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
-    networks:
-      - esnet
-
-  elasticsearch2:
-    build: ./elasticsearch/
-    container_name: elasticsearch2
-    environment:
-      - cluster.name=docker-cluster
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - "discovery.zen.ping.unicast.hosts=elasticsearch1"
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    mem_limit: 1g
-    volumes:
-      - esdata2:/usr/share/elasticsearch/data
+      - 9300:9300
     networks:
       - esnet
 
   mysql:
-      image: mysql
+      image: mysql:5.7
       container_name: mysql
       environment:
           - MYSQL_ROOT_PASSWORD=root
@@ -48,7 +24,7 @@ services:
       volumes:
         - mysql_data:/var/lib/mysql
       networks:
-        - laravelnet
+        - mysqlnet
 
   nginx:
       build:
@@ -63,7 +39,6 @@ services:
         - app
         - mysql
         - elasticsearch1
-        - elasticsearch2
       networks:
         - laravelnet
 
@@ -76,7 +51,11 @@ services:
         - ./php/src:/var/www
       networks:
         - esnet
+        - mysqlnet
         - laravelnet
+      depends_on:
+        - mysql
+        - elasticsearch1
       environment:
         - DB_HOST=mysql
         - DB_DATABASE=briskly_papers
@@ -112,4 +91,5 @@ volumes:
 
 networks:
   esnet:
+  mysqlnet:
   laravelnet:
